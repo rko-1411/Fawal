@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدعم السريع | Quick Support</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dark: #8B6914;
+    --green-dark: #1a3a2a;
+    --green-mid: #2d5a3d;
+    --green-light: #3d7a52;
+    --cream: #FAF6EE;
+    --white: #ffffff;
+    --text-dark: #1a1a1a;
+    --text-mid: #444;
+    --shadow: 0 8px 32px rgba(0,0,0,0.15);
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--green-dark);
+    min-height: 100vh;
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* Background pattern */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      radial-gradient(circle at 20% 20%, rgba(201,168,76,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(201,168,76,0.06) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ===== LANGUAGE TOGGLE ===== */
+  .lang-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 16px;
+    background: rgba(26,58,42,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+
+  html[dir="ltr"] .lang-bar { justify-content: flex-start; }
+
+  .lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold-light);
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    letter-spacing: 0.3px;
+  }
+
+  .lang-btn:hover {
+    background: rgba(201,168,76,0.3);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .lang-btn .flag { font-size: 16px; }
+
+  /* ===== MAIN CONTAINER ===== */
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 70px 16px 40px;
+    min-height: 100vh;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    text-align: center;
+    padding: 28px 20px 24px;
+    animation: fadeDown 0.6s ease;
+  }
+
+  .logo-container {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 18px 24px;
+    display: inline-block;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3), 0 0 0 1px rgba(201,168,76,0.3);
+    margin-bottom: 16px;
+  }
+
+  .logo-container img {
+    height: 70px;
+    max-width: 280px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .page-title {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--gold-light);
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .page-subtitle {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 400;
+  }
+
+  /* ===== FORM CARD ===== */
+  .form-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 28px 24px;
+    box-shadow: var(--shadow), 0 0 0 1px rgba(201,168,76,0.1);
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+
+  .form-section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--green-mid);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .form-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to left, transparent, rgba(45,90,61,0.2));
+  }
+
+  html[dir="ltr"] .form-section-title::after {
+    background: linear-gradient(to right, transparent, rgba(45,90,61,0.2));
+  }
+
+  /* ===== FIELD ===== */
+  .field {
+    margin-bottom: 18px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-mid);
+    margin-bottom: 7px;
+  }
+
+  .field label .required {
+    color: #e53935;
+    margin-right: 2px;
+  }
+
+  html[dir="ltr"] .field label .required { margin-right: 0; margin-left: 2px; }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 12px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    color: var(--text-dark);
+    background: #fafafa;
+    transition: all 0.25s ease;
+    outline: none;
+    -webkit-appearance: none;
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    border-color: var(--green-mid);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(45,90,61,0.1);
+  }
+
+  .field input.error,
+  .field select.error,
+  .field textarea.error {
+    border-color: #e53935;
+    background: #fff5f5;
+  }
+
+  .field .error-msg {
+    font-size: 12px;
+    color: #e53935;
+    margin-top: 5px;
+    display: none;
+  }
+
+  .field.has-error .error-msg { display: block; }
+
+  .field textarea {
+    resize: none;
+    height: 88px;
+  }
+
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: left 14px center;
+    padding-left: 36px;
+  }
+
+  html[dir="ltr"] .field select {
+    background-position: right 14px center;
+    padding-left: 16px;
+    padding-right: 36px;
+  }
+
+  /* ===== PHONE WITH DIAL CODE ===== */
+  .phone-row {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .dial-select {
+    width: 130px;
+    flex-shrink: 0;
+    padding: 13px 10px 13px 30px !important;
+    font-size: 13px !important;
+    background-position: left 8px center !important;
+  }
+
+  html[dir="ltr"] .dial-select {
+    padding: 13px 30px 13px 10px !important;
+    background-position: right 8px center !important;
+  }
+
+  .phone-input {
+    flex: 1;
+  }
+
+  /* ===== LOCATION BUTTON ===== */
+  .location-field {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .location-field input {
+    flex: 1;
+    font-size: 13px;
+  }
+
+  .detect-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--green-mid);
+    color: white;
+    border: none;
+    padding: 13px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .detect-btn:hover { background: var(--green-dark); }
+  .detect-btn:active { transform: scale(0.97); }
+
+  .detect-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .location-status {
+    font-size: 11px;
+    margin-top: 5px;
+    color: #888;
+    min-height: 16px;
+    transition: color 0.3s;
+  }
+
+  .location-status.success { color: var(--green-mid); }
+  .location-status.error-loc { color: #e53935; }
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #e0e0e0, transparent);
+    margin: 22px 0;
+  }
+
+  /* ===== SUBMIT BUTTON ===== */
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 16px rgba(45,90,61,0.4);
+    letter-spacing: 0.3px;
+    margin-top: 4px;
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(45,90,61,0.5);
+  }
+
+  .submit-btn:active { transform: translateY(0); }
+
+  .submit-btn .btn-icon { font-size: 20px; }
+
+  /* ===== CONFIRMATION PAGE ===== */
+  #confirmPage {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--green-dark);
+    z-index: 200;
+    overflow-y: auto;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .confirm-container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .confirm-logo {
+    background: white;
+    border-radius: 16px;
+    padding: 14px 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+
+  .confirm-logo img {
+    height: 50px;
+    object-fit: contain;
+  }
+
+  .ticket-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 32px 24px;
+    width: 100%;
+    text-align: center;
+    box-shadow: var(--shadow);
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+  }
+
+  .ticket-icon {
+    width: 72px;
+    height: 72px;
+    background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 32px;
+    box-shadow: 0 4px 16px rgba(45,90,61,0.4);
+  }
+
+  .ticket-label {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .ticket-number {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--green-dark);
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ticket-divider {
+    border: none;
+    border-top: 2px dashed #e0e0e0;
+    margin: 20px 0;
+  }
+
+  .stay-notice {
+    background: linear-gradient(135deg, #fff8e1, #fff3cd);
+    border: 1.5px solid var(--gold);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .stay-notice .notice-icon { font-size: 24px; margin-bottom: 6px; }
+
+  .stay-notice p {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold-dark);
+    line-height: 1.5;
+  }
+
+  /* ===== RATING ===== */
+  .rating-section {
+    background: white;
+    border-radius: 24px;
+    padding: 24px;
+    width: 100%;
+    text-align: center;
+    box-shadow: var(--shadow);
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.35s both;
+  }
+
+  .rating-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+  }
+
+  .rating-subtitle {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 16px;
+  }
+
+  .stars {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .star {
+    font-size: 36px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    filter: grayscale(1) opacity(0.4);
+    user-select: none;
+  }
+
+  .star:hover,
+  .star.active {
+    filter: grayscale(0) opacity(1);
+    transform: scale(1.15);
+  }
+
+  .rating-hint {
+    font-size: 13px;
+    color: #aaa;
+    min-height: 20px;
+    transition: color 0.3s;
+  }
+
+  /* ===== END BUTTON ===== */
+  .end-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #c62828, #b71c1c);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(198,40,40,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
+  }
+
+  .end-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(198,40,40,0.5); }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.85); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 16px;
+    color: rgba(255,255,255,0.3);
+    font-size: 11px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Language Bar -->
+<div class="lang-bar">
+  <button class="lang-btn" onclick="toggleLang()" id="langBtn">
+    <span class="flag">🇬🇧</span>
+    <span id="langText">English</span>
+  </button>
+</div>
+
+<!-- Main Page -->
+<div id="mainPage">
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo-container">
+        <img src="/mnt/user-data/uploads/0a47c481-d3bc-420f-adc6-a5cf63a83248.jpeg" alt="وزارة الحج والعمرة">
+      </div>
+      <div class="page-title" id="pageTitle">الدعم السريع</div>
+      <div class="page-subtitle" id="pageSubtitle">أدخل بياناتك لطلب المساعدة</div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="form-card">
+      <div class="form-section-title" id="sectionTitle">بيانات مقدم الطلب</div>
+
+      <!-- Name -->
+      <div class="field" id="nameField">
+        <label><span class="required">*</span> <span id="lblName">الاسم الكامل</span></label>
+        <input type="text" id="name" placeholder="أدخل اسمك الكامل">
+        <div class="error-msg" id="nameErr">هذا الحقل مطلوب</div>
+      </div>
+
+      <!-- Nationality -->
+      <div class="field" id="natField">
+        <label><span class="required">*</span> <span id="lblNat">الجنسية</span></label>
+        <select id="nationality">
+          <option value="" id="natPlaceholder">اختر الجنسية</option>
+          <option value="SA">🇸🇦 السعودية</option>
+          <option value="EG">🇪🇬 مصر</option>
+          <option value="PK">🇵🇰 باكستان</option>
+          <option value="IN">🇮🇳 الهند</option>
+          <option value="ID">🇮🇩 إندونيسيا</option>
+          <option value="TR">🇹🇷 تركيا</option>
+          <option value="MA">🇲🇦 المغرب</option>
+          <option value="DZ">🇩🇿 الجزائر</option>
+          <option value="TN">🇹🇳 تونس</option>
+          <option value="LY">🇱🇾 ليبيا</option>
+          <option value="JO">🇯🇴 الأردن</option>
+          <option value="IQ">🇮🇶 العراق</option>
+          <option value="SY">🇸🇾 سوريا</option>
+          <option value="YE">🇾🇪 اليمن</option>
+          <option value="SD">🇸🇩 السودان</option>
+          <option value="SO">🇸🇴 الصومال</option>
+          <option value="BD">🇧🇩 بنغلاديش</option>
+          <option value="NG">🇳🇬 نيجيريا</option>
+          <option value="SN">🇸🇳 السنغال</option>
+          <option value="ML">🇲🇱 مالي</option>
+          <option value="IR">🇮🇷 إيران</option>
+          <option value="AF">🇦🇫 أفغانستان</option>
+          <option value="MY">🇲🇾 ماليزيا</option>
+          <option value="GB">🇬🇧 المملكة المتحدة</option>
+          <option value="FR">🇫🇷 فرنسا</option>
+          <option value="US">🇺🇸 الولايات المتحدة</option>
+          <option value="OTHER">🌍 أخرى</option>
+        </select>
+        <div class="error-msg" id="natErr">هذا الحقل مطلوب</div>
+      </div>
+
+      <!-- Phone -->
+      <div class="field" id="phoneField">
+        <label><span class="required">*</span> <span id="lblPhone">رقم الهاتف</span></label>
+        <div class="phone-row">
+          <select class="dial-select" id="dialCode">
+            <option value="+966">🇸🇦 +966</option>
+            <option value="+20">🇪🇬 +20</option>
+            <option value="+92">🇵🇰 +92</option>
+            <option value="+91">🇮🇳 +91</option>
+            <option value="+62">🇮🇩 +62</option>
+            <option value="+90">🇹🇷 +90</option>
+            <option value="+212">🇲🇦 +212</option>
+            <option value="+213">🇩🇿 +213</option>
+            <option value="+216">🇹🇳 +216</option>
+            <option value="+218">🇱🇾 +218</option>
+            <option value="+962">🇯🇴 +962</option>
+            <option value="+964">🇮🇶 +964</option>
+            <option value="+963">🇸🇾 +963</option>
+            <option value="+967">🇾🇪 +967</option>
+            <option value="+249">🇸🇩 +249</option>
+            <option value="+252">🇸🇴 +252</option>
+            <option value="+880">🇧🇩 +880</option>
+            <option value="+234">🇳🇬 +234</option>
+            <option value="+221">🇸🇳 +221</option>
+            <option value="+223">🇲🇱 +223</option>
+            <option value="+98">🇮🇷 +98</option>
+            <option value="+93">🇦🇫 +93</option>
+            <option value="+60">🇲🇾 +60</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+1">🇺🇸 +1</option>
+          </select>
+          <input type="tel" id="phone" class="phone-input" placeholder="5XXXXXXXX">
+        </div>
+        <div class="error-msg" id="phoneErr">هذا الحقل مطلوب</div>
+      </div>
+
+      <!-- Description -->
+      <div class="field" id="descField">
+        <label><span class="required">*</span> <span id="lblDesc">وصف مختصر للطلب</span></label>
+        <textarea id="description" placeholder="اشرح طلبك باختصار..."></textarea>
+        <div class="error-msg" id="descErr">هذا الحقل مطلوب</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Location -->
+      <div class="field" id="locField">
+        <label><span class="required">*</span> <span id="lblLoc">الموقع الحالي</span></label>
+        <div class="location-field">
+          <input type="text" id="location" placeholder="اضغط الزر لتحديد موقعك" readonly>
+          <button class="detect-btn" onclick="detectLocation()" id="detectBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+              <circle cx="12" cy="12" r="9" opacity="0.3"/>
+            </svg>
+            <span id="detectTxt">تحديد</span>
+          </button>
+        </div>
+        <div class="location-status" id="locationStatus"></div>
+        <div class="error-msg" id="locErr">يرجى تحديد موقعك</div>
+      </div>
+
+      <!-- Submit -->
+      <button class="submit-btn" onclick="submitForm()">
+        <span class="btn-icon">📨</span>
+        <span id="btnSubmit">إرسال الطلب</span>
+      </button>
+    </div>
+
+    <div class="footer" id="footerTxt">جميع الحقوق محفوظة © وزارة الحج والعمرة</div>
+  </div>
+</div>
+
+<!-- Confirmation Page -->
+<div id="confirmPage">
+  <div class="confirm-container">
+    <div class="confirm-logo">
+      <img src="/mnt/user-data/uploads/0a47c481-d3bc-420f-adc6-a5cf63a83248.jpeg" alt="وزارة الحج والعمرة">
+    </div>
+
+    <div class="ticket-card">
+      <div class="ticket-icon">✅</div>
+      <div class="ticket-label" id="ticketLabel">رقم طلبك</div>
+      <div class="ticket-number" id="ticketNumber">—</div>
+      <hr class="ticket-divider">
+      <div class="stay-notice">
+        <div class="notice-icon">📍</div>
+        <p id="stayMsg">فضلاً ابق في مكانك، سيصلك أحد المختصين قريباً</p>
+      </div>
+    </div>
+
+    <div class="rating-section">
+      <div class="rating-title" id="rateTitle">قيّم الخدمة بعد انتهائها</div>
+      <div class="rating-subtitle" id="rateSubtitle">رأيك يهمنا لتحسين خدماتنا</div>
+      <div class="stars" id="starsRow">
+        <span class="star" onclick="rate(1)" data-val="1">⭐</span>
+        <span class="star" onclick="rate(2)" data-val="2">⭐</span>
+        <span class="star" onclick="rate(3)" data-val="3">⭐</span>
+        <span class="star" onclick="rate(4)" data-val="4">⭐</span>
+        <span class="star" onclick="rate(5)" data-val="5">⭐</span>
+      </div>
+      <div class="rating-hint" id="ratingHint"></div>
+    </div>
+
+    <button class="end-btn" onclick="endRequest()">
+      <span>🔴</span>
+      <span id="btnEnd">إنهاء الطلب</span>
+    </button>
+
+    <div class="footer" id="footerConfirm">جميع الحقوق محفوظة © وزارة الحج والعمرة</div>
+  </div>
+</div>
+
+<script>
+  // ===== LANGUAGE =====
+  let currentLang = 'ar';
+
+  const translations = {
+    ar: {
+      pageTitle: 'الدعم السريع',
+      pageSubtitle: 'أدخل بياناتك لطلب المساعدة',
+      sectionTitle: 'بيانات مقدم الطلب',
+      lblName: 'الاسم الكامل',
+      lblNat: 'الجنسية',
+      lblPhone: 'رقم الهاتف',
+      lblDesc: 'وصف مختصر للطلب',
+      lblLoc: 'الموقع الحالي',
+      namePh: 'أدخل اسمك الكامل',
+      descPh: 'اشرح طلبك باختصار...',
+      locPh: 'اضغط الزر لتحديد موقعك',
+      natPh: 'اختر الجنسية',
+      detectTxt: 'تحديد',
+      btnSubmit: 'إرسال الطلب',
+      nameErr: 'هذا الحقل مطلوب',
+      natErr: 'هذا الحقل مطلوب',
+      phoneErr: 'هذا الحقل مطلوب',
+      descErr: 'هذا الحقل مطلوب',
+      locErr: 'يرجى تحديد موقعك',
+      detecting: '📡 جاري تحديد الموقع...',
+      locSuccess: '✅ تم تحديد موقعك بنجاح',
+      locFail: '❌ تعذّر تحديد الموقع، أدخله يدوياً',
+      ticketLabel: 'رقم طلبك',
+      stayMsg: 'فضلاً ابق في مكانك، سيصلك أحد المختصين قريباً',
+      rateTitle: 'قيّم الخدمة بعد انتهائها',
+      rateSubtitle: 'رأيك يهمنا لتحسين خدماتنا',
+      btnEnd: 'إنهاء الطلب',
+      footer: 'جميع الحقوق محفوظة © وزارة الحج والعمرة',
+      langBtn: 'English',
+      rateHints: ['سيء جداً 😞','سيء 😕','مقبول 😐','جيد 😊','ممتاز 🌟'],
+      phonePh: '5XXXXXXXX',
+    },
+    en: {
+      pageTitle: 'Quick Support',
+      pageSubtitle: 'Enter your details to request assistance',
+      sectionTitle: 'Applicant Information',
+      lblName: 'Full Name',
+      lblNat: 'Nationality',
+      lblPhone: 'Phone Number',
+      lblDesc: 'Brief Description',
+      lblLoc: 'Current Location',
+      namePh: 'Enter your full name',
+      descPh: 'Briefly describe your request...',
+      locPh: 'Press button to detect location',
+      natPh: 'Select Nationality',
+      detectTxt: 'Detect',
+      btnSubmit: 'Submit Request',
+      nameErr: 'This field is required',
+      natErr: 'This field is required',
+      phoneErr: 'This field is required',
+      descErr: 'This field is required',
+      locErr: 'Please detect your location',
+      detecting: '📡 Detecting location...',
+      locSuccess: '✅ Location detected successfully',
+      locFail: '❌ Could not detect location, enter manually',
+      ticketLabel: 'Your Ticket Number',
+      stayMsg: 'Please stay in your location, a specialist will reach you shortly',
+      rateTitle: 'Rate the service after completion',
+      rateSubtitle: 'Your feedback helps us improve',
+      btnEnd: 'End Request',
+      footer: '© Ministry of Hajj & Umrah. All rights reserved.',
+      langBtn: 'عربي',
+      rateHints: ['Very Bad 😞','Bad 😕','Fair 😐','Good 😊','Excellent 🌟'],
+      phonePh: '5XXXXXXXX',
+    }
+  };
+
+  function toggleLang() {
+    currentLang = currentLang === 'ar' ? 'en' : 'ar';
+    const t = translations[currentLang];
+    const html = document.documentElement;
+    html.setAttribute('lang', currentLang);
+    html.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+
+    document.getElementById('pageTitle').textContent = t.pageTitle;
+    document.getElementById('pageSubtitle').textContent = t.pageSubtitle;
+    document.getElementById('sectionTitle').textContent = t.sectionTitle;
+    document.getElementById('lblName').textContent = t.lblName;
+    document.getElementById('lblNat').textContent = t.lblNat;
+    document.getElementById('lblPhone').textContent = t.lblPhone;
+    document.getElementById('lblDesc').textContent = t.lblDesc;
+    document.getElementById('lblLoc').textContent = t.lblLoc;
+    document.getElementById('name').placeholder = t.namePh;
+    document.getElementById('description').placeholder = t.descPh;
+    document.getElementById('location').placeholder = t.locPh;
+    document.getElementById('natPlaceholder').textContent = t.natPh;
+    document.getElementById('detectTxt').textContent = t.detectTxt;
+    document.getElementById('btnSubmit').textContent = t.btnSubmit;
+    document.getElementById('nameErr').textContent = t.nameErr;
+    document.getElementById('natErr').textContent = t.natErr;
+    document.getElementById('phoneErr').textContent = t.phoneErr;
+    document.getElementById('descErr').textContent = t.descErr;
+    document.getElementById('locErr').textContent = t.locErr;
+    document.getElementById('ticketLabel').textContent = t.ticketLabel;
+    document.getElementById('stayMsg').textContent = t.stayMsg;
+    document.getElementById('rateTitle').textContent = t.rateTitle;
+    document.getElementById('rateSubtitle').textContent = t.rateSubtitle;
+    document.getElementById('btnEnd').textContent = t.btnEnd;
+    document.getElementById('footerTxt').textContent = t.footer;
+    document.getElementById('footerConfirm').textContent = t.footer;
+    document.getElementById('langText').textContent = t.langBtn;
+    document.getElementById('phone').placeholder = t.phonePh;
+
+    const ls = document.getElementById('locationStatus');
+    if (ls.textContent) {
+      if (ls.classList.contains('success')) ls.textContent = t.locSuccess;
+      else if (ls.classList.contains('error-loc')) ls.textContent = t.locFail;
+    }
+  }
+
+  // ===== LOCATION =====
+  function detectLocation() {
+    const t = translations[currentLang];
+    const btn = document.getElementById('detectBtn');
+    const status = document.getElementById('locationStatus');
+    const input = document.getElementById('location');
+
+    status.textContent = t.detecting;
+    status.className = 'location-status';
+    btn.disabled = true;
+
+    if (!navigator.geolocation) {
+      status.textContent = t.locFail;
+      status.className = 'location-status error-loc';
+      btn.disabled = false;
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const { latitude, longitude } = pos.coords;
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
+          const data = await res.json();
+          const addr = data.display_name || `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+          input.value = addr;
+        } catch {
+          input.value = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+        }
+        status.textContent = t.locSuccess;
+        status.className = 'location-status success';
+        btn.disabled = false;
+        clearFieldError('locField', 'location');
+      },
+      () => {
+        status.textContent = t.locFail;
+        status.className = 'location-status error-loc';
+        input.removeAttribute('readonly');
+        input.placeholder = currentLang === 'ar' ? 'أدخل موقعك يدوياً' : 'Enter location manually';
+        btn.disabled = false;
+      },
+      { timeout: 10000 }
+    );
+  }
+
+  // ===== VALIDATION =====
+  function showFieldError(fieldId, inputId) {
+    document.getElementById(fieldId).classList.add('has-error');
+    document.getElementById(inputId).classList.add('error');
+  }
+
+  function clearFieldError(fieldId, inputId) {
+    document.getElementById(fieldId).classList.remove('has-error');
+    document.getElementById(inputId).classList.remove('error');
+  }
+
+  ['name','nationality','phone','description','location'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', () => {
+      const fieldMap = {name:'nameField',nationality:'natField',phone:'phoneField',description:'descField',location:'locField'};
+      clearFieldError(fieldMap[id], id);
+    });
+  });
+
+  function submitForm() {
+    let valid = true;
+    const name = document.getElementById('name').value.trim();
+    const nat  = document.getElementById('nationality').value;
+    const phone= document.getElementById('phone').value.trim();
+    const desc = document.getElementById('description').value.trim();
+    const loc  = document.getElementById('location').value.trim();
+
+    if (!name)  { showFieldError('nameField','name');  valid = false; }
+    if (!nat)   { showFieldError('natField','nationality'); valid = false; }
+    if (!phone) { showFieldError('phoneField','phone'); valid = false; }
+    if (!desc)  { showFieldError('descField','description'); valid = false; }
+    if (!loc)   { showFieldError('locField','location'); valid = false; }
+
+    if (!valid) {
+      const first = document.querySelector('.has-error');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // Generate ticket number
+    const ticket = 'SR-' + String(Math.floor(10000 + Math.random() * 90000));
+    document.getElementById('ticketNumber').textContent = ticket;
+
+    // Show confirmation
+    document.getElementById('confirmPage').style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+
+  // ===== RATING =====
+  let selectedRating = 0;
+  const rateHints = {
+    ar: ['سيء جداً 😞','سيء 😕','مقبول 😐','جيد 😊','ممتاز 🌟'],
+    en: ['Very Bad 😞','Bad 😕','Fair 😐','Good 😊','Excellent 🌟']
+  };
+
+  function rate(val) {
+    selectedRating = val;
+    const stars = document.querySelectorAll('.star');
+    stars.forEach((s, i) => {
+      s.classList.toggle('active', i < val);
+    });
+    document.getElementById('ratingHint').textContent = rateHints[currentLang][val - 1];
+    document.getElementById('ratingHint').style.color = '#2d5a3d';
+  }
+
+  // ===== END =====
+  function endRequest() {
+    document.getElementById('confirmPage').style.display = 'none';
+    document.getElementById('mainPage').querySelector('form') && document.getElementById('mainPage').querySelector('form').reset();
+    document.getElementById('name').value = '';
+    document.getElementById('nationality').value = '';
+    document.getElementById('phone').value = '';
+    document.getElementById('description').value = '';
+    document.getElementById('location').value = '';
+    document.getElementById('locationStatus').textContent = '';
+    document.getElementById('locationStatus').className = 'location-status';
+    selectedRating = 0;
+    document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
+    document.getElementById('ratingHint').textContent = '';
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>
