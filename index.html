@@ -1,53 +1,33 @@
-
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>طلب مساعدة</title>
-
 <title>منشئ الفورم</title>
 <style>
-*{box-sizing:border-box}
 *{box-sizing:border-box;margin:0;padding:0}
 
 body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:linear-gradient(135deg,#f5f7fa,#e8edf3);
   font-family:'Segoe UI',Arial,sans-serif;
   background:#f0f4f8;
   min-height:100vh;
   color:#1a1a2e;
 }
 
-/* ===== HEADER ===== */
 .app-header{
   background:linear-gradient(135deg,#0f766e,#0d9488);
   color:white;
   padding:14px 24px;
   display:flex;
-  justify-content:center;
   justify-content:space-between;
   align-items:center;
-  padding:20px;
   box-shadow:0 3px 12px rgba(15,118,110,.35);
   position:sticky;
   top:0;
   z-index:100;
 }
 
-.card{
-  width:100%;
-  max-width:430px;
-  background:#fff;
-  border-radius:24px;
-  padding:24px;
-  box-shadow:0 12px 35px rgba(0,0,0,.12);
-}
 .app-header h1{font-size:19px;font-weight:800;letter-spacing:-.3px}
-
-.header{
-  text-align:center;
-  margin-bottom:22px;
 .tabs{display:flex;gap:8px}
 
 .tab-btn{
@@ -65,32 +45,16 @@ body{
 .tab-btn.active{background:white;color:#0f766e;border-color:white}
 .tab-btn:not(.active):hover{background:rgba(255,255,255,.15)}
 
-.icon{
-  width:62px;
-  height:62px;
-  background:#0f766e;
-  color:#fff;
-/* ===== LAYOUT ===== */
 .main{max-width:680px;margin:28px auto;padding:0 16px 60px}
 
-/* ===== CARD ===== */
 .card{
   background:white;
   border-radius:20px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  margin:0 auto 12px;
   padding:22px;
   box-shadow:0 4px 20px rgba(0,0,0,.07);
   margin-bottom:18px;
 }
 
-h1{
-  margin:0;
-  font-size:24px;
-  color:#111827;
 .card-title{
   font-size:15px;
   font-weight:800;
@@ -99,3 +63,388 @@ h1{
   padding-bottom:12px;
   border-bottom:2px solid #f0fdfa;
   display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+input[type=text],input[type=url],input[type=email],
+input[type=tel],input[type=number],input[type=date],
+select,textarea{
+  width:100%;
+  padding:12px 14px;
+  border:1.5px solid #e5e7eb;
+  border-radius:12px;
+  font-size:14px;
+  font-family:inherit;
+  background:#fafafa;
+  transition:border-color .2s,background .2s;
+  color:#111;
+  direction:rtl;
+}
+input:focus,select:focus,textarea:focus{
+  outline:none;
+  border-color:#0f766e;
+  background:white;
+  box-shadow:0 0 0 3px rgba(15,118,110,.08);
+}
+textarea{resize:vertical}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  color:#374151;
+  margin-bottom:6px;
+}
+
+.form-group{margin-bottom:14px}
+.form-group:last-child{margin-bottom:0}
+.row{display:flex;gap:12px}
+.row>.form-group{flex:1}
+
+.btn{
+  padding:10px 18px;
+  border:none;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .2s;
+  font-family:inherit;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.btn-primary{background:#0f766e;color:white}
+.btn-primary:hover{background:#0d6660;transform:translateY(-1px)}
+.btn-dark{background:#111827;color:white}
+.btn-dark:hover{background:#1f2937}
+.btn-ghost{background:#f3f4f6;color:#374151}
+.btn-ghost:hover{background:#e5e7eb}
+.btn-full{width:100%;justify-content:center;padding:14px;font-size:16px}
+
+.icon-btn{
+  width:32px;height:32px;
+  border:none;border-radius:8px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;
+  transition:all .2s;
+  background:#f3f4f6;
+  color:#6b7280;
+  flex-shrink:0;
+}
+.icon-btn:hover{background:#e5e7eb}
+.icon-btn.del:hover{background:#fee2e2;color:#dc2626}
+.icon-btn:disabled{opacity:.3;cursor:not-allowed}
+
+.field-item{
+  border:1.5px solid #e5e7eb;
+  border-radius:14px;
+  margin-bottom:10px;
+  background:#fafafa;
+  overflow:hidden;
+  transition:border-color .2s,box-shadow .2s;
+}
+.field-item:hover{border-color:#d1d5db}
+.field-item.expanded{
+  border-color:#0f766e;
+  background:white;
+  box-shadow:0 4px 16px rgba(15,118,110,.1);
+}
+
+.field-header{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 14px;
+  cursor:pointer;
+  user-select:none;
+}
+
+.field-move{display:flex;gap:4px;flex-shrink:0}
+
+.field-badge{
+  background:#f0fdfa;
+  color:#0f766e;
+  padding:3px 9px;
+  border-radius:8px;
+  font-size:11px;
+  font-weight:800;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+
+.field-lbl{
+  flex:1;
+  font-size:14px;
+  font-weight:700;
+  color:#111;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.field-required-star{color:#ef4444;margin-right:2px}
+.field-actions-end{display:flex;gap:4px;flex-shrink:0}
+
+.field-body{
+  display:none;
+  padding:0 14px 14px;
+  border-top:1px solid #f3f4f6;
+}
+.field-item.expanded .field-body{display:block;padding-top:14px}
+
+.option-row{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.option-row input{flex:1}
+
+.toggle-row{display:flex;align-items:center;gap:10px;margin-top:12px}
+.toggle{position:relative;width:42px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.slider{
+  position:absolute;inset:0;
+  background:#d1d5db;
+  border-radius:12px;
+  cursor:pointer;
+  transition:.25s;
+}
+.slider:before{
+  content:'';
+  position:absolute;
+  width:18px;height:18px;
+  left:3px;top:3px;
+  background:white;
+  border-radius:50%;
+  transition:.25s;
+  box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+.toggle input:checked+.slider{background:#0f766e}
+.toggle input:checked+.slider:before{left:21px}
+
+.add-field-wrap{
+  text-align:center;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1.5px dashed #e5e7eb;
+}
+
+.type-grid{
+  display:none;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:14px;
+}
+.type-grid.open{display:grid}
+
+.type-btn{
+  padding:14px 8px;
+  border:1.5px solid #e5e7eb;
+  border-radius:14px;
+  background:white;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:700;
+  color:#374151;
+  transition:all .2s;
+  text-align:center;
+  font-family:inherit;
+}
+.type-btn:hover{border-color:#0f766e;color:#0f766e;background:#f0fdfa;transform:translateY(-2px)}
+.type-icon{font-size:22px;display:block;margin-bottom:5px}
+
+.empty-state{
+  text-align:center;
+  padding:32px 20px;
+  color:#9ca3af;
+}
+.empty-icon{font-size:44px;margin-bottom:10px}
+.empty-state p{font-size:14px;line-height:1.6}
+
+#previewCard .preview-title{text-align:center;margin-bottom:24px}
+#previewCard .preview-title h2{font-size:22px;color:#111827;font-weight:800}
+
+.ty-view{text-align:center;padding:32px 16px}
+.ty-view img{
+  max-width:100%;max-height:240px;
+  border-radius:16px;margin-bottom:22px;
+  object-fit:cover;width:100%;
+}
+.ty-msg{
+  font-size:20px;font-weight:800;
+  color:#111827;white-space:pre-wrap;
+  line-height:1.6;margin-bottom:20px;
+}
+.ty-link{
+  display:inline-block;padding:14px 32px;
+  background:#0f766e;color:white;
+  border-radius:14px;text-decoration:none;
+  font-weight:800;font-size:15px;
+  margin-bottom:20px;transition:background .2s;
+}
+.ty-link:hover{background:#0d6660}
+.hint{font-size:12px;color:#9ca3af;margin-top:5px}
+
+@media(max-width:480px){
+  .type-grid{grid-template-columns:repeat(2,1fr)}
+  .row{flex-direction:column;gap:0}
+}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <h1>⚡ منشئ الفورم</h1>
+  <div class="tabs">
+    <button class="tab-btn active" id="tabBuild" onclick="switchTab('builder')">🔧 بناء</button>
+    <button class="tab-btn" id="tabPreview" onclick="switchTab('preview')">👁 معاينة</button>
+  </div>
+</div>
+
+<div id="builderView" class="main">
+  <div class="card">
+    <div class="card-title">✏️ عنوان الفورم</div>
+    <div class="form-group">
+      <input type="text" id="formTitle" placeholder="مثال: استبيان رضا العملاء" value="فورمي الجديد">
+    </div>
+    <div class="form-group">
+      <label>وصف (اختياري)</label>
+      <textarea id="formDesc" rows="2" placeholder="وصف مختصر يظهر تحت العنوان"></textarea>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 الحقول</div>
+    <div id="fieldsList">
+      <div class="empty-state" id="emptyFields">
+        <div class="empty-icon">📝</div>
+        <p>ما في حقول بعد<br>ابدأ بإضافة أول حقل</p>
+      </div>
+    </div>
+    <div class="add-field-wrap">
+      <button class="btn btn-primary" onclick="toggleGrid()">+ إضافة حقل</button>
+      <div class="type-grid" id="typeGrid">
+        <button class="type-btn" onclick="addField('text')"><span class="type-icon">🔤</span>نص قصير</button>
+        <button class="type-btn" onclick="addField('textarea')"><span class="type-icon">📄</span>نص طويل</button>
+        <button class="type-btn" onclick="addField('email')"><span class="type-icon">📧</span>إيميل</button>
+        <button class="type-btn" onclick="addField('tel')"><span class="type-icon">📱</span>جوال</button>
+        <button class="type-btn" onclick="addField('number')"><span class="type-icon">🔢</span>رقم</button>
+        <button class="type-btn" onclick="addField('date')"><span class="type-icon">📅</span>تاريخ</button>
+        <button class="type-btn" onclick="addField('select')"><span class="type-icon">🔽</span>قائمة منسدلة</button>
+        <button class="type-btn" onclick="addField('radio')"><span class="type-icon">🔘</span>اختيار واحد</button>
+        <button class="type-btn" onclick="addField('checkbox')"><span class="type-icon">☑️</span>اختيار متعدد</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎉 صفحة الشكر بعد الإرسال</div>
+    <div class="form-group">
+      <label>رسالة الشكر</label>
+      <textarea id="tyMsg" rows="3">شكراً لك! 🎉
+تم استلام طلبك بنجاح.</textarea>
+    </div>
+    <div class="form-group">
+      <label>صورة صفحة الشكر (رابط URL)</label>
+      <input type="url" id="tyImg" placeholder="https://example.com/image.jpg">
+      <p class="hint">اتركه فارغاً إذا ما تبغى صورة</p>
+    </div>
+    <div class="row">
+      <div class="form-group">
+        <label>نص الزر</label>
+        <input type="text" id="tyLinkText" placeholder="زيارة موقعنا">
+      </div>
+      <div class="form-group">
+        <label>رابط الزر</label>
+        <input type="url" id="tyLinkUrl" placeholder="https://...">
+      </div>
+    </div>
+    <p class="hint" style="margin-top:4px">اتركهم فارغين إذا ما تبغى زر</p>
+  </div>
+</div>
+
+<div id="previewView" class="main" style="display:none">
+  <div class="card" id="previewCard"></div>
+</div>
+
+<script>
+let fields=[];let uid=1;let gridOpen=false;
+const TYPE_NAMES={text:'نص قصير',textarea:'نص طويل',email:'إيميل',tel:'جوال',number:'رقم',date:'تاريخ',select:'قائمة',radio:'اختيار واحد',checkbox:'اختيار متعدد'};
+const DEFAULT_LABELS={text:'الاسم',email:'البريد الإلكتروني',tel:'رقم الجوال',textarea:'ملاحظات',number:'الرقم',date:'التاريخ',select:'اختر خياراً',radio:'اختر خياراً',checkbox:'اختر ما ينطبق'};
+const DEFAULT_PH={text:'اكتب هنا...',email:'example@email.com',tel:'05xxxxxxxx',textarea:'اكتب هنا...',number:'0'};
+
+function switchTab(tab){
+  document.getElementById('tabBuild').classList.toggle('active',tab==='builder');
+  document.getElementById('tabPreview').classList.toggle('active',tab==='preview');
+  document.getElementById('builderView').style.display=tab==='builder'?'':'none';
+  document.getElementById('previewView').style.display=tab==='preview'?'':'none';
+  if(tab==='preview')renderPreview();
+}
+function toggleGrid(){gridOpen=!gridOpen;document.getElementById('typeGrid').classList.toggle('open',gridOpen);}
+function addField(type){
+  fields.push({id:uid++,type,label:DEFAULT_LABELS[type]||'حقل جديد',placeholder:DEFAULT_PH[type]||'',required:false,options:['select','radio','checkbox'].includes(type)?['خيار 1','خيار 2']:[]});
+  gridOpen=false;document.getElementById('typeGrid').classList.remove('open');renderFields();
+}
+function deleteField(id){fields=fields.filter(f=>f.id!==id);renderFields();}
+function moveField(id,dir){
+  const i=fields.findIndex(f=>f.id===id),j=i+dir;
+  if(j<0||j>=fields.length)return;
+  [fields[i],fields[j]]=[fields[j],fields[i]];
+  renderFields();
+  setTimeout(()=>{const el=document.getElementById('fi-'+id);if(el)el.classList.add('expanded');},0);
+}
+function renderFields(){
+  const list=document.getElementById('fieldsList'),empty=document.getElementById('emptyFields');
+  list.querySelectorAll('.field-item').forEach(el=>el.remove());
+  empty.style.display=fields.length===0?'':'none';
+  fields.forEach((f,idx)=>{
+    const div=document.createElement('div');
+    div.className='field-item';div.id='fi-'+f.id;
+    const hasOpts=['select','radio','checkbox'].includes(f.type);
+    const hasPh=['text','email','tel','number','textarea'].includes(f.type);
+    const optsHTML=hasOpts?`<div class="form-group"><label>الخيارات</label><div id="opts-${f.id}">${f.options.map((o,oi)=>`<div class="option-row"><input type="text" value="${x(o)}" oninput="updateOpt(${f.id},${oi},this.value)" placeholder="خيار ${oi+1}"><button class="icon-btn del" onclick="removeOpt(${f.id},${oi})">✕</button></div>`).join('')}</div><button class="btn btn-ghost" style="width:100%;margin-top:6px" onclick="addOpt(${f.id})">+ إضافة خيار</button></div>`:'';
+    const phHTML=hasPh?`<div class="form-group"><label>نص توضيحي</label><input type="text" value="${x(f.placeholder)}" oninput="setField(${f.id},'placeholder',this.value)" placeholder="اكتب هنا..."></div>`:'';
+    div.innerHTML=`<div class="field-header" onclick="toggleExpand(${f.id})"><div class="field-move" onclick="event.stopPropagation()"><button class="icon-btn" onclick="moveField(${f.id},-1)" ${idx===0?'disabled':''}>↑</button><button class="icon-btn" onclick="moveField(${f.id},1)" ${idx===fields.length-1?'disabled':''}>↓</button></div><span class="field-badge">${TYPE_NAMES[f.type]}</span><span class="field-lbl" id="lbl-${f.id}">${f.required?'<span class="field-required-star">*</span>':''}${x(f.label)}</span><div class="field-actions-end" onclick="event.stopPropagation()"><button class="icon-btn del" onclick="deleteField(${f.id})">🗑</button></div></div><div class="field-body"><div class="form-group"><label>اسم الحقل</label><input type="text" value="${x(f.label)}" oninput="setField(${f.id},'label',this.value)"></div>${phHTML}${optsHTML}<div class="toggle-row"><label class="toggle"><input type="checkbox" ${f.required?'checked':''} onchange="setField(${f.id},'required',this.checked)"><span class="slider"></span></label><span style="font-size:13px;color:#374151;font-weight:600">حقل إلزامي</span></div></div>`;
+    list.insertBefore(div,empty);
+  });
+}
+function toggleExpand(id){document.getElementById('fi-'+id).classList.toggle('expanded');}
+function setField(id,key,val){
+  const f=fields.find(f=>f.id===id);if(!f)return;f[key]=val;
+  if(key==='label'||key==='required'){const lbl=document.getElementById('lbl-'+id);if(lbl)lbl.innerHTML=(f.required?'<span class="field-required-star">*</span>':'')+x(f.label);}
+}
+function addOpt(fid){const f=fields.find(f=>f.id===fid);if(!f)return;f.options.push('خيار '+(f.options.length+1));renderFields();setTimeout(()=>{const el=document.getElementById('fi-'+fid);if(el)el.classList.add('expanded');},0);}
+function removeOpt(fid,oi){const f=fields.find(f=>f.id===fid);if(!f||f.options.length<=1)return;f.options.splice(oi,1);renderFields();setTimeout(()=>{const el=document.getElementById('fi-'+fid);if(el)el.classList.add('expanded');},0);}
+function updateOpt(fid,oi,val){const f=fields.find(f=>f.id===fid);if(f)f.options[oi]=val;}
+function renderPreview(){
+  const title=document.getElementById('formTitle').value||'الفورم';
+  const desc=document.getElementById('formDesc').value;
+  const card=document.getElementById('previewCard');
+  let bodyHTML='';
+  if(fields.length===0){bodyHTML=`<div class="empty-state"><div class="empty-icon">📋</div><p>ما في حقول — ارجع للبناء وأضف حقول</p></div>`;}
+  else{
+    fields.forEach(f=>{
+      const req=f.required,star=req?' <span style="color:#ef4444">*</span>':'';let ctrl='';
+      if(['text','email','tel','number','date'].includes(f.type)){ctrl=`<input type="${f.type}" placeholder="${x(f.placeholder)}" ${req?'required':''}>`;}
+      else if(f.type==='textarea'){ctrl=`<textarea placeholder="${x(f.placeholder)}" rows="3" ${req?'required':''}></textarea>`;}
+      else if(f.type==='select'){ctrl=`<select ${req?'required':''}><option value="">اختر...</option>${f.options.map(o=>`<option value="${x(o)}">${x(o)}</option>`).join('')}</select>`;}
+      else if(f.type==='radio'){ctrl=`<div style="display:flex;flex-direction:column;gap:10px;margin-top:6px">${f.options.map(o=>`<label style="display:flex;align-items:center;gap:8px;font-weight:600;cursor:pointer;font-size:14px"><input type="radio" name="rf_${f.id}" value="${x(o)}" style="width:auto;accent-color:#0f766e"> ${x(o)}</label>`).join('')}</div>`;}
+      else if(f.type==='checkbox'){ctrl=`<div style="display:flex;flex-direction:column;gap:10px;margin-top:6px">${f.options.map(o=>`<label style="display:flex;align-items:center;gap:8px;font-weight:600;cursor:pointer;font-size:14px"><input type="checkbox" value="${x(o)}" style="width:auto;accent-color:#0f766e"> ${x(o)}</label>`).join('')}</div>`;}
+      bodyHTML+=`<div class="form-group"><label>${x(f.label)}${star}</label>${ctrl}</div>`;
+    });
+    bodyHTML+=`<button type="submit" class="btn btn-dark btn-full" style="margin-top:8px">إرسال ✓</button>`;
+  }
+  card.innerHTML=`<div class="preview-title"><h2>${x(title)}</h2>${desc?`<p style="color:#6b7280;font-size:14px;margin-top:6px;line-height:1.7">${x(desc)}</p>`:''}</div><form id="previewForm" onsubmit="showThankYou(event)">${bodyHTML}</form>`;
+}
+function showThankYou(e){
+  e.preventDefault();
+  const msg=document.getElementById('tyMsg').value||'شكراً لك!';
+  const img=document.getElementById('tyImg').value.trim();
+  const linkText=document.getElementById('tyLinkText').value.trim();
+  const linkUrl=document.getElementById('tyLinkUrl').value.trim();
+  const card=document.getElementById('previewCard');
+  card.innerHTML=`<div class="ty-view">${img?`<img src="${x(img)}" alt="" onerror="this.style.display='none'">`:''}<div class="ty-msg">${x(msg)}</div>${linkText&&linkUrl?`<a class="ty-link" href="${x(linkUrl)}" target="_blank">${x(linkText)}</a>`:''}<div style="margin-top:18px"><button class="btn btn-ghost" onclick="switchTab('preview')">← تعبئة الفورم مجدداً</button></div></div>`;
+}
+function x(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+</script>
+</body>
+</html>
